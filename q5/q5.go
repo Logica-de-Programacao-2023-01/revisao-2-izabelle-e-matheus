@@ -12,8 +12,6 @@ package q5
 //fornecido.
 
 type Product struct {
-	Code  string
-	Name  string
 	Price float64
 }
 
@@ -23,6 +21,13 @@ type Sale struct {
 }
 
 func CalculateTotalSales(sales map[string]*Sale) float64 {
-	// Seu código aqui
-	return 0
+	total := 0.0
+
+	for _, sale := range sales {
+		for _, product := range sale.Products {
+			total += product.Price
+		}
+	}
+
+	return total
 }
