@@ -14,7 +14,27 @@ type Student struct {
 	Subjects map[string]float64
 }
 
-func MergeStudentData(studentData1 map[string]Student, studentData2 map[string]Student) map[string]Student {
-	// Seu código aqui
-	return nil
+func MergeStudentData(studentData1, studentData2 map[string]Student) map[string]Student {
+	mergedData := make(map[string]Student)
+
+	// Copiar todos os alunos do primeiro mapa para o mapa mesclado
+	for key, student := range studentData1 {
+		mergedData[key] = student
+	}
+
+	// Mesclar os alunos do segundo mapa com o mapa mesclado
+	for key, student := range studentData2 {
+		if existingStudent, ok := mergedData[key]; ok {
+			// Aluno já existe, mesclar as matérias
+			for subject, grade := range student.Subjects {
+				existingStudent.Subjects[subject] = grade
+			}
+			mergedData[key] = existingStudent
+		} else {
+			// Aluno não existe, adicionar ao mapa mesclado
+			mergedData[key] = student
+		}
+	}
+
+	return mergedData
 }
