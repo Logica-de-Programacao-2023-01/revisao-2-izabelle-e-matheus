@@ -1,6 +1,9 @@
 package q2
 
-import "errors"
+import (
+	"errors"
+	"strings"
+)
 
 //Você é um desenvolvedor de software em uma empresa financeira e está trabalhando em um sistema de folha de pagamento.
 //Cada funcionário possui um ID único, nome, cargo, salário base e um conjunto de bônus mensais. Você decidiu usar uma
@@ -12,14 +15,26 @@ import "errors"
 //prefixo "Senior".
 
 type Employee struct {
-	ID         int
 	Name       string
 	Title      string
 	BaseSalary float64
 	Bonuses    []float64
 }
 
-func CalculateTotalSalary(employee *Employee) (float64, error) {
-	// Seu código aqui
-	return 0, errors.New("Not implemented yet")
+func CalculateTotalSalary(emp *Employee) (float64, error) {
+	if emp == nil {
+		return 0, errors.New("empregado nulo")
+	}
+
+	total := emp.BaseSalary
+
+	for _, bonus := range emp.Bonuses {
+		total += bonus
+	}
+
+	if total-emp.BaseSalary > 1500 && !strings.HasPrefix(emp.Title, "Senior") {
+		emp.Title = "Senior " + emp.Title
+	}
+
+	return total, nil
 }
